@@ -15,7 +15,7 @@ dependencies {
 // END SNIPPET local-groovy-dependencies
 // END SNIPPET use-plugin
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
@@ -28,14 +28,15 @@ dependencies {
 group = 'org.gradle'
 version = '1.0-SNAPSHOT'
 
-uploadArchives {
+publishing {
     repositories {
-        mavenDeployer {
-            repository(url: uri("$buildDir/repo"))
+        maven {
+            url = uri("$buildDir/repo")
         }
     }
-}
-
-task cleanCustomPluginFromMavenLocal(type: Delete) {
-    delete file("${System.env.HOME}/.m2/repository/org/gradle/customPlugin/")
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
