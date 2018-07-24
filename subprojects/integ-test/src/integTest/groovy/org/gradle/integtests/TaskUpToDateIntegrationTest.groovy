@@ -291,6 +291,11 @@ class TaskUpToDateIntegrationTest extends AbstractIntegrationSpec {
 
         when:
         inputDir.file('.gitignore').text = "some ignored file"
+        inputDir.file('#ignored#').text = "some ignored file"
+        inputDir.file('.git/any-name.txt').text = "some ignored file"
+        inputDir.file('.git/any-name.txt').text = "some ignored file"
+        inputDir.file('._ignored').text = "some ignored file"
+        inputDir.file('some-file.txt~').text = "some ignored file"
         run 'myTask'
         then:
         skipped(':myTask')
